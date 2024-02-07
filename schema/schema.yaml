@@ -1,0 +1,105 @@
+paths:
+  
+  /tasks:
+    GET:
+      operationID: getTasks
+
+      responses:
+      
+      "200":
+      description: "OK"
+      content:
+        application/json:
+          schema:
+            $ref : "#/components/schema/TaskListSchema"
+      
+      "404":
+      $ref : "#/components/responses/NotFound"
+    
+    POST:
+      operationID: createTask
+      requestBody:
+        required: true
+        content:
+          application/json:
+          schema: "#/components/schema/createTaskSchema"
+  
+  /task/{task_id}:
+  GET:
+    operationID: getTask
+
+    responses:
+    "200":
+      description: "OK"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schema/TaskSchema"
+    
+    "400":
+      $ref : "#/components/responses/NotFound"
+    
+  PUT:
+    operationID: updateTask
+
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema: "#/components/schema/TaskSchema"
+
+
+components:
+  responses:
+    NotFound:
+      content:
+        application/json:
+          schema: "#components/schema/Error"
+  
+  schemas:
+
+    Error:
+      type: object
+      properties:
+        details:
+          type:
+            string
+      required:
+        details
+    
+    TaskSchema:
+    type: object
+    properties:
+      id:
+        type:
+          uuid
+      date:
+        type:
+          string
+      details:
+        type:
+          string
+    required:
+      date
+      details
+    
+    TaskListSchema:
+      type: array
+      properties:
+        tasks:
+          type: array
+
+          items:
+            $ref : "#/components/schema/TaskSchema"
+    
+    CreateTaskSchema:
+      type: object
+      properties:
+        details:
+          type:
+            string
+      required:
+        details      
+      
+    
+    

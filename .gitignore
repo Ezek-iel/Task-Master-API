@@ -2,7 +2,7 @@
 .venv/
 
 # Python imports
-.pyc
+__pycache__/
 
 # IDE's
 .vscode/
