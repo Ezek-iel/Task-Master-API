@@ -13,7 +13,7 @@ class Task(Resource):
         if taskToFetch:
             return taskToFetch.encode()
         else:
-            return Error(errorType=404, details = "Task Not Found").encode()
+            return Error(errorType=404, details = "Task Not Found").encode(),404
 
     def put(self, task_id : str):
         
@@ -24,6 +24,7 @@ class Task(Resource):
             taskToUpdate.dateTime = datetime.utcnow()
             taskToUpdate.details = form['details']
             db.session.commit()
+        return Error(errorType=404, details="Task Not Found").encode(),404
 
 
 
@@ -41,5 +42,5 @@ class TaskList(Resource):
         db.session.add(taskToAdd)
         db.session.commit()
 
-api.add_resource(Task, "/task/<task_id>")
-api.add_resource(TaskList, "/task")
+api.add_resource(Task, "/tasks/<task_id>")
+api.add_resource(TaskList, "/tasks")
